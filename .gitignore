@@ -1,0 +1,27 @@
+# --- Hugo 核心排除项目 ---
+# 排除最终生成的静态文件夹 (这是 GitHub Actions 构建出来的，不需要存入源码库)
+public/
+# 排除 Hugo 运行时的本地资源缓存
+resources/_gen/
+# 排除资源处理后的缓存 (如处理后的图片、CSS)
+assets/jsconfig.json
+
+# --- 依赖管理 ---
+# 排除 Hugo 自动下载的模块缓存
+.hugo_build.lock
+
+# --- 操作系统/编辑器冗余文件 ---
+# macOS 相关 (既然你有两台 Mac，这个必加)
+.DS_Store
+.AppleDouble
+.LSOverride
+# Windows 相关
+Thumbs.db
+# 编辑器相关
+.vscode/
+.idea/
+*.swp
+
+# --- 调试与临时文件 ---
+hugo_stats.json
+*.log
