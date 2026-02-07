@@ -53,5 +53,5 @@ jobs:
           SOURCE: "public/"                # Hugo 生成的静态目录
           REMOTE_HOST: ${{ secrets.SERVER_IP }}
           REMOTE_USER: ${{ secrets.SERVER_USER }}
-          TARGET: "/var/www/my-blog/"      # <--- 注意：修改为你的实际服务器路径
+          TARGET: "/var/www/y-blog/"      # <--- 注意：修改为你的实际服务器路径
           REMOTE_PORT: 40844
