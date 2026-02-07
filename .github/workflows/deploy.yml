@@ -42,7 +42,7 @@ jobs:
       - name: Add Server to Known Hosts
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p 40844 -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       # 6. 同步到服务器 (使用 rsync)
       - name: Deploy via Rsync
