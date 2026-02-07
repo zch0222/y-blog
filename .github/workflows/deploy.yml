@@ -1,0 +1,56 @@
+name: Deploy Hugo to Server
+
+on:
+  push:
+    branches:
+      - master  # <--- 注意：确认你的默认分支是 main 还是 master
+
+permissions:
+  contents: read
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 拉取代码
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive  # 必须开启递归，否则 PaperMod 等主题无法下载
+          fetch-depth: 0         #以此获取 Git Log 时间戳
+
+      # 2. 安装 Hugo (Extended版本)
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      # 3. 缓存 Hugo Modules (加快构建速度)
+      - name: Cache Hugo modules
+        uses: actions/cache@v4
+        with:
+          path: /tmp/hugo_cache
+          key: ${{ runner.os }}-hugo-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-hugo-
+
+      # 4. 编译静态文件
+      - name: Build
+        run: hugo --minify --environment production
+
+      # 5. 配置 SSH 环境 (防止 "Host key verification failed" 错误)
+      - name: Add Server to Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      # 6. 同步到服务器 (使用 rsync)
+      - name: Deploy via Rsync
+        uses: easingthemes/ssh-deploy@v5.0.0
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-avz --delete --checksum" # 生产环境推荐参数
+          SOURCE: "public/"                # Hugo 生成的静态目录
+          REMOTE_HOST: ${{ secrets.SERVER_IP }}
+          REMOTE_USER: ${{ secrets.SERVER_USER }}
+          TARGET: "/var/www/my-blog/"      # <--- 注意：修改为你的实际服务器路径
