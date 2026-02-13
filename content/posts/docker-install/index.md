@@ -1,6 +1,6 @@
 ---
 date: '2026-02-13T20:22:25+08:00'
-draft: true
+draft: false
 title: 'Linux Docker 安装和代理配置 (Ubuntu/Debian)'
 summary: 'Ubuntu/Debian安装Docker并配置代理方案'
 ---
