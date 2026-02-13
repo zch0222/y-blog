@@ -1,6 +1,6 @@
 ---
 date: '2026-02-07T12:54:57+08:00'
-draft: true
+draft: false
 title: "OpenClaw 部署指南：从零开始搭建私有 AI 网关"
 categories: ["Self-hosted", "AI", "DevOps"]
 tags: ["OpenClaw", "Node.js", "Nginx", "Linux", "Systemd"]
@@ -39,13 +39,13 @@ unset NVM_DIR
 
 ```bash
 # 1. 安装基础工具
-apt-get update && apt-get install -y curl gnupg
+sudo apt-get update && sudo apt-get install -y curl gnupg
 
 # 2. 添加 Node.js 22 源
-curl -fsSL [https://deb.nodesource.com/setup_22.x](https://deb.nodesource.com/setup_22.x) | bash -
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 
 # 3. 安装 Node.js
-apt-get install -y nodejs
+sudo apt-get install -y nodejs
 
 # 4. 验证 (应输出 /usr/bin/node)
 which node
@@ -60,7 +60,7 @@ node -v
 ### 1. 全局安装
 
 ```bash
-npm install -g openclaw
+sudo npm install -g openclaw
 
 ```
 
@@ -97,17 +97,17 @@ openclaw config set gateway.trustedProxies "127.0.0.1"
 创建文件 `/etc/systemd/system/openclaw-gateway.service`：
 
 ```bash
-cat <<EOF > /etc/systemd/system/openclaw-gateway.service
+sudo tee /etc/systemd/system/openclaw-gateway.service <<EOF
 [Unit]
 Description=OpenClaw Gateway Service
-Documentation=[https://docs.openclaw.ai](https://docs.openclaw.ai)
+Documentation=https://docs.openclaw.ai
 After=network.target
 
 [Service]
 Type=simple
-User=root
-# 确保使用绝对路径启动
-ExecStart=$(which openclaw) gateway --port 18789
+User=<USER>
+# 建议手动填入绝对路径，防止 $(which) 在 sudo 环境下失效
+ExecStart=$(which openclaw || echo "/usr/local/bin/openclaw") gateway --port 18789
 Restart=always
 RestartSec=3
 Environment=NODE_ENV=production
@@ -117,13 +117,14 @@ WantedBy=multi-user.target
 EOF
 
 ```
+把<USER>替换成当前用户
 
 ### 2. 启动服务
 
 ```bash
-systemctl daemon-reload
-systemctl enable openclaw-gateway.service
-systemctl start openclaw-gateway.service
+sudo systemctl daemon-reload
+sudo systemctl enable openclaw-gateway.service
+sudo systemctl start openclaw-gateway.service
 
 ```
 
