@@ -1,6 +1,6 @@
 ---
 date: '2026-02-07T12:54:57+08:00'
-draft: false
+draft: true
 title: "OpenClaw 部署指南：从零开始搭建私有 AI 网关"
 categories: ["Self-hosted", "AI", "DevOps"]
 tags: ["OpenClaw", "Node.js", "Nginx", "Linux", "Systemd"]
