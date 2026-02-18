@@ -147,3 +147,33 @@ docker exec jenkins-blueocean cat /var/jenkins_home/secrets/initialAdminPassword
 2. 使用初始密钥进入 Jenkins。
 3. 新建任务执行 `sh 'docker version'`，确认 DinD 环境正常。
 
+## 容器互通性测试
+
+Jenkins (Client) 与 jenkins-docker (Server) 的互通是该架构成功的关键。
+
+### 步骤 A：Pipeline 脚本验证
+在 Jenkins 中新建一个 Pipeline 任务，输入以下脚本并运行：
+
+```Groovy
+pipeline {
+    agent any
+    stages {
+        stage('Verify DinD Connectivity') {
+            steps {
+                // 1. 检查客户端是否安装
+                sh 'docker --version'
+                // 2. 检查是否能通过网络连接到 DinD 服务端
+                sh 'docker version'
+                // 3. 检查是否能获取服务端详细信息
+                sh 'docker info'
+            }
+        }
+    }
+}
+```
+### 步骤 B：结果判定
+
+* **成功标志**：日志中同时出现 `Client` 和 `Server: Docker Engine - Community` 的版本信息。
+* **常见故障**：
+    * `docker: command not found`：说明镜像未正确安装 `docker.io`。
+    * `Cannot connect to the Docker daemon`：检查 `DOCKER_HOST` 环境变量及 `jenkins` Docker 网络是否打通。
