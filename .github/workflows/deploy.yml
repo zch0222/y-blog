@@ -1,6 +1,7 @@
 name: Deploy Hugo to Server
 
 on:
+  workflow_dispatch: # 添加这一行即可
   push:
     branches:
       - master  # <--- 注意：确认你的默认分支是 main 还是 master
