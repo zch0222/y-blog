@@ -2,3 +2,8 @@ baseURL: https://blog.yypan.cloud/
 languageCode: zh-cn
 title: Y Blog
 theme: "PaperMod"
+# 1. 全局层级（兼容旧版 Hugo 或特定插件）
+author: "称霸幼儿园"
+# 2. Params 层级（PaperMod 主要读取的地方）
+params:
+  author: "称霸幼儿园"
