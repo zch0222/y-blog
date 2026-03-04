@@ -5,8 +5,6 @@ title: 'Linux 开启BBR'
 summary: "Linux 开启BBR教程"
 ---
 
-# Linux 服务器开启 BBR 加速教程
-
 Google BBR (Bottleneck Bandwidth and RTT) 是一种 TCP 拥塞控制算法，能显著降低网络延迟并提高吞吐量。
 
 ### 前置条件
