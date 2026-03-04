@@ -5,8 +5,6 @@ title: 'Linux 服务器添加 Swap (交换空间)'
 summary: "Linux Swap管理教程"
 ---
 
-# Linux 服务器添加 Swap (交换空间) 
-
 本文介绍如何在 Linux 系统中通过创建 Swap 文件来扩展虚拟内存。适用于 Ubuntu, CentOS, Debian 等主流发行版。
 
 ## 1. 检查当前 Swap
