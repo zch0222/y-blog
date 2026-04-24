@@ -8,3 +8,5 @@ author: "称霸幼儿园"
 params:
   author: "称霸幼儿园"
   description: "称霸幼儿园的技术博客，记录 Java 后端开发、Spring Boot、Linux 运维、数据库和工程实践。"
+  ShowToc: true
+  TocOpen: true
