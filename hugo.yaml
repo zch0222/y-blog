@@ -7,3 +7,4 @@ author: "称霸幼儿园"
 # 2. Params 层级（PaperMod 主要读取的地方）
 params:
   author: "称霸幼儿园"
+  description: "称霸幼儿园的技术博客，记录后端开发、Linux 运维、数据库和工程实践。"
