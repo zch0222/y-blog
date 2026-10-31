@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="770" height="548" viewBox="0 0 770 548" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', 'Source Han Sans SC', sans-serif">
+<title id="title">OIDC 的前端通道与后端通道</title>
+<desc id="desc">浏览器位于前端通道，授权请求和授权码经浏览器重定向传递；令牌通过 RP 与 OP 之间的后端通道直接获取，RP 再用 access token 调用资源服务器。</desc>
+<defs><marker id="ah1f6feb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.8 L10,5 L0,9.2 Z" fill="#1F6FEB"/></marker><marker id="ahb7791f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.8 L10,5 L0,9.2 Z" fill="#B7791F"/></marker></defs>
+<rect x="0.5" y="0.5" width="769" height="547" rx="12" fill="#FFFFFF" stroke="#D0D7DE"/>
+<rect data-id="r1" x="295" y="30" width="180" height="56" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="385" y="49" font-size="15" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r1">用户 / 浏览器</text>
+<text x="385" y="69" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r1">User agent</text>
+<rect data-id="r2" x="40" y="250" width="210" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="145" y="269" font-size="15" font-weight="600" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r2">客户端应用 RP</text>
+<text x="145" y="289" font-size="12" font-weight="400" fill="#4A41A8" text-anchor="middle" dominant-baseline="central" data-box="r2">Relying party（后端）</text>
+<rect data-id="r3" x="520" y="250" width="210" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+<text x="625" y="269" font-size="15" font-weight="600" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r3">OpenID 提供方 OP</text>
+<text x="625" y="289" font-size="12" font-weight="400" fill="#0B5E49" text-anchor="middle" dominant-baseline="central" data-box="r3">OpenID provider</text>
+<rect data-id="r4" x="40" y="430" width="210" height="56" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="145" y="449" font-size="15" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r4">资源服务器</text>
+<text x="145" y="469" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r4">Resource server（API）</text>
+<path d="M145,248 L145,58 L293,58" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" marker-start="url(#ahb7791f)" stroke-dasharray="6 4" data-seg="145,248,145,58;145,58,293,58"/>
+<path d="M477,58 L625,58 L625,248" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" marker-start="url(#ahb7791f)" stroke-dasharray="6 4" data-seg="477,58,625,58;625,58,625,248"/>
+<text x="133" y="150" font-size="13" font-weight="400" fill="#424A53" text-anchor="end" dominant-baseline="central">302 重定向</text>
+<text x="133" y="169" font-size="13" font-weight="400" fill="#424A53" text-anchor="end" dominant-baseline="central">回调 /callback</text>
+<text x="637" y="150" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">授权请求</text>
+<text x="637" y="169" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">302 带回 code</text>
+<path d="M252,278 L518,278" fill="none" stroke="#1F6FEB" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah1f6feb)" marker-start="url(#ah1f6feb)" data-seg="252,278,518,278"/>
+<text x="385" y="264" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">POST /token</text>
+<path d="M145,308 L145,428" fill="none" stroke="#1F6FEB" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah1f6feb)" data-seg="145,308,145,428"/>
+<text x="157" y="360" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">Bearer</text>
+<text x="157" y="379" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">access token</text>
+<rect data-id="r5" x="175" y="106" width="420" height="103" rx="8" fill="#FDF4E3" stroke="#B7791F" stroke-width="1"/>
+<text x="385" y="129" font-size="15" font-weight="600" fill="#633806" text-anchor="middle" dominant-baseline="central" data-box="r5">前端通道：经浏览器重定向（不可信）</text>
+<text x="385" y="149.5" font-size="13" font-weight="400" fill="#7A4A0D" text-anchor="middle" dominant-baseline="central" data-box="r5">传递：授权请求参数、code、state</text>
+<text x="385" y="168.5" font-size="13" font-weight="400" fill="#7A4A0D" text-anchor="middle" dominant-baseline="central" data-box="r5">URL 会进入浏览器历史、服务器日志和 Referer</text>
+<text x="385" y="187.5" font-size="13" font-weight="400" fill="#7A4A0D" text-anchor="middle" dominant-baseline="central" data-box="r5">可能被恶意脚本、恶意 App 或攻击者截获、篡改</text>
+<rect data-id="r6" x="300" y="330" width="430" height="122" rx="8" fill="#EAF2FD" stroke="#1F6FEB" stroke-width="1"/>
+<text x="515" y="353" font-size="15" font-weight="600" fill="#0C447C" text-anchor="middle" dominant-baseline="central" data-box="r6">后端通道：服务器之间直连（TLS）</text>
+<text x="515" y="373.5" font-size="13" font-weight="400" fill="#164F8C" text-anchor="middle" dominant-baseline="central" data-box="r6">传递：code、code_verifier、客户端凭证</text>
+<text x="515" y="392.5" font-size="13" font-weight="400" fill="#164F8C" text-anchor="middle" dominant-baseline="central" data-box="r6">返回：ID Token、Access Token、Refresh Token</text>
+<text x="515" y="411.5" font-size="13" font-weight="400" fill="#164F8C" text-anchor="middle" dominant-baseline="central" data-box="r6">内容不经过浏览器</text>
+<text x="515" y="430.5" font-size="13" font-weight="400" fill="#164F8C" text-anchor="middle" dominant-baseline="central" data-box="r6">TLS 证书证明 OP 身份，客户端凭证证明 RP 身份</text>
+<path d="M193.5,520 L227.5,520" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" stroke-dasharray="6 4" data-seg="193.5,520,227.5,520"/>
+<text x="235.5" y="520" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">前端通道（经浏览器）</text>
+<path d="M391.5,520 L425.5,520" fill="none" stroke="#1F6FEB" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah1f6feb)" data-seg="391.5,520,425.5,520"/>
+<text x="433.5" y="520" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">后端通道（服务器直连）</text>
+</svg>

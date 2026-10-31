@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="770" height="520" viewBox="0 0 770 520" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', 'Source Han Sans SC', sans-serif">
+<title id="title">PKCE 如何挫败授权码截获</title>
+<desc id="desc">RP 只把 code_verifier 的哈希放进授权请求；攻击者即使截获了 code，也拿不出能通过 OP 校验的 code_verifier，因此换不到令牌。</desc>
+<defs><marker id="ah57606a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.8 L10,5 L0,9.2 Z" fill="#57606A"/></marker></defs>
+<rect x="0.5" y="0.5" width="769" height="519" rx="12" fill="#FFFFFF" stroke="#D0D7DE"/>
+<rect data-id="r1" x="85" y="28" width="600" height="103" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="385" y="51" font-size="15" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r1">① 发起授权：前端通道上只出现哈希</text>
+<text x="385" y="71.5" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r1">RP 生成高熵随机的 code_verifier，只保存在 RP 后端</text>
+<text x="385" y="90.5" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r1">授权请求携带 code_challenge = BASE64URL(SHA-256(code_verifier))</text>
+<text x="385" y="109.5" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r1">OP 把 code_challenge 与随后签发的 code 绑定保存</text>
+<path d="M385,133 L385,165" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="385,133,385,165"/>
+<rect data-id="r2" x="165" y="167" width="440" height="65" rx="8" fill="#FDF4E3" stroke="#B7791F" stroke-width="1"/>
+<text x="385" y="190" font-size="15" font-weight="600" fill="#633806" text-anchor="middle" dominant-baseline="central" data-box="r2">② code 经浏览器回调返回</text>
+<text x="385" y="210.5" font-size="13" font-weight="400" fill="#7A4A0D" text-anchor="middle" dominant-baseline="central" data-box="r2">前端通道：可能经由日志、Referer、恶意 App 等泄露</text>
+<path d="M385,234 L385,254 L200,254 L200,286" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="385,234,385,254;385,254,200,254;200,254,200,286"/>
+<path d="M385,254 L570,254 L570,286" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="385,254,570,254;570,254,570,286"/>
+<rect data-id="r3" x="60" y="288" width="280" height="84" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="200" y="311" font-size="15" font-weight="600" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r3">③ 合法客户端（RP 后端）</text>
+<text x="200" y="331.5" font-size="13" font-weight="400" fill="#4A41A8" text-anchor="middle" dominant-baseline="central" data-box="r3">POST /token</text>
+<text x="200" y="350.5" font-size="13" font-weight="400" fill="#4A41A8" text-anchor="middle" dominant-baseline="central" data-box="r3">code + code_verifier</text>
+<rect data-id="r4" x="430" y="288" width="280" height="84" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="1"/>
+<text x="570" y="311" font-size="15" font-weight="600" fill="#791F1F" text-anchor="middle" dominant-baseline="central" data-box="r4">③ 截获了 code 的攻击者</text>
+<text x="570" y="331.5" font-size="13" font-weight="400" fill="#8E2626" text-anchor="middle" dominant-baseline="central" data-box="r4">POST /token</text>
+<text x="570" y="350.5" font-size="13" font-weight="400" fill="#8E2626" text-anchor="middle" dominant-baseline="central" data-box="r4">code（没有 code_verifier）</text>
+<path d="M200,374 L200,406" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="200,374,200,406"/>
+<path d="M570,374 L570,406" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="570,374,570,406"/>
+<rect data-id="r5" x="60" y="408" width="280" height="84" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/>
+<text x="200" y="431" font-size="15" font-weight="600" fill="#27500A" text-anchor="middle" dominant-baseline="central" data-box="r5">④ OP 校验通过</text>
+<text x="200" y="451.5" font-size="13" font-weight="400" fill="#33600E" text-anchor="middle" dominant-baseline="central" data-box="r5">BASE64URL(SHA-256(verifier))</text>
+<text x="200" y="470.5" font-size="13" font-weight="400" fill="#33600E" text-anchor="middle" dominant-baseline="central" data-box="r5">= code_challenge → 签发令牌</text>
+<rect data-id="r6" x="430" y="408" width="280" height="84" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="1"/>
+<text x="570" y="431" font-size="15" font-weight="600" fill="#791F1F" text-anchor="middle" dominant-baseline="central" data-box="r6">④ OP 拒绝</text>
+<text x="570" y="451.5" font-size="13" font-weight="400" fill="#8E2626" text-anchor="middle" dominant-baseline="central" data-box="r6">拿不出匹配的 code_verifier</text>
+<text x="570" y="470.5" font-size="13" font-weight="400" fill="#8E2626" text-anchor="middle" dominant-baseline="central" data-box="r6">→ invalid_grant，不签发令牌</text>
+</svg>

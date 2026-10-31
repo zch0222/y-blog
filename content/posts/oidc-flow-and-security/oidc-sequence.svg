@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="770" height="1272" viewBox="0 0 770 1272" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', 'Source Han Sans SC', sans-serif">
+<title id="title">OIDC 授权码流程（含 PKCE）时序图</title>
+<desc id="desc">浏览器、客户端应用 RP、OpenID 提供方 OP、资源服务器之间的 10 步交互，以及 RP、OP、资源服务器各自在本地做的处理和校验。</desc>
+<defs><marker id="ah1f6feb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.8 L10,5 L0,9.2 Z" fill="#1F6FEB"/></marker><marker id="ah57606a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.8 L10,5 L0,9.2 Z" fill="#57606A"/></marker><marker id="ahb7791f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.8 L10,5 L0,9.2 Z" fill="#B7791F"/></marker></defs>
+<rect x="0.5" y="0.5" width="769" height="1271" rx="12" fill="#FFFFFF" stroke="#D0D7DE"/>
+<rect data-id="r1" x="22" y="24" width="156" height="58" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="100" y="44" font-size="15" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r1">用户 / 浏览器</text>
+<text x="100" y="64" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r1">User agent</text>
+<rect data-id="r2" x="212" y="24" width="156" height="58" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="290" y="44" font-size="15" font-weight="600" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r2">客户端应用</text>
+<text x="290" y="64" font-size="12" font-weight="400" fill="#4A41A8" text-anchor="middle" dominant-baseline="central" data-box="r2">Relying party (RP)</text>
+<rect data-id="r3" x="412" y="24" width="156" height="58" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+<text x="490" y="44" font-size="15" font-weight="600" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r3">OpenID 提供方</text>
+<text x="490" y="64" font-size="12" font-weight="400" fill="#0B5E49" text-anchor="middle" dominant-baseline="central" data-box="r3">OpenID provider (OP)</text>
+<rect data-id="r4" x="592" y="24" width="156" height="58" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="670" y="44" font-size="15" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r4">资源服务器</text>
+<text x="670" y="64" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r4">Resource server (RS)</text>
+<text x="195" y="103" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">1. 点击登录</text>
+<path d="M100,115 L289,115" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" data-seg="100,115,289,115"/>
+<rect data-id="r5" x="140" y="131" width="300" height="81" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="290" y="152.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r5">生成随机 state、nonce、code_verifier</text>
+<text x="290" y="171.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r5">计算 code_challenge（S256）</text>
+<text x="290" y="190.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r5">存入与该浏览器绑定的会话</text>
+<text x="195" y="231" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">2. 302 重定向</text>
+<text x="195" y="248" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">到 OP 授权端点</text>
+<path d="M290,260 L101,260" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" stroke-dasharray="6 4" data-seg="290,260,101,260"/>
+<text x="295" y="283" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">3. GET /authorize?response_type=code</text>
+<text x="295" y="300" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">client_id、redirect_uri、scope=openid</text>
+<text x="295" y="317" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">state、nonce、code_challenge</text>
+<text x="295" y="334" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">code_challenge_method=S256</text>
+<path d="M100,346 L489,346" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" data-seg="100,346,489,346"/>
+<rect data-id="r6" x="350" y="362" width="280" height="62" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+<text x="490" y="383.5" font-size="13" font-weight="400" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r6">OP 认证用户（登录页、MFA 等）</text>
+<text x="490" y="402.5" font-size="13" font-weight="400" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r6">必要时征得用户同意（consent）</text>
+<text x="295" y="443" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">4. 302 重定向到 redirect_uri</text>
+<text x="295" y="460" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">携带 code 和 state</text>
+<path d="M490,472 L101,472" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" stroke-dasharray="6 4" data-seg="490,472,101,472"/>
+<text x="195" y="495" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">5. GET /callback</text>
+<text x="195" y="512" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">code、state</text>
+<path d="M100,524 L289,524" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" data-seg="100,524,289,524"/>
+<rect data-id="r7" x="140" y="540" width="300" height="62" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="290" y="561.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r7">校验 state 与会话中保存的一致</text>
+<text x="290" y="580.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r7">不一致则中止（防 CSRF）</text>
+<text x="390" y="621" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">6. POST /token</text>
+<text x="390" y="638" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">code、code_verifier</text>
+<text x="390" y="655" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">redirect_uri、客户端认证</text>
+<path d="M290,667 L489,667" fill="none" stroke="#1F6FEB" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah1f6feb)" data-seg="290,667,489,667"/>
+<rect data-id="r8" x="340" y="683" width="300" height="100" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+<text x="490" y="704.5" font-size="13" font-weight="400" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r8">认证客户端（机密客户端）</text>
+<text x="490" y="723.5" font-size="13" font-weight="400" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r8">code 签发给该客户端、有效且未使用</text>
+<text x="490" y="742.5" font-size="13" font-weight="400" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r8">redirect_uri 与第 3 步一致</text>
+<text x="490" y="761.5" font-size="13" font-weight="400" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r8">S256(code_verifier) = code_challenge</text>
+<text x="390" y="802" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">7. 200 OK</text>
+<text x="390" y="819" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">id_token、access_token</text>
+<text x="390" y="836" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">（可选 refresh_token）</text>
+<path d="M490,848 L291,848" fill="none" stroke="#1F6FEB" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah1f6feb)" stroke-dasharray="6 4" data-seg="490,848,291,848"/>
+<rect data-id="r9" x="140" y="864" width="300" height="100" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="290" y="885.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r9">验证 ID Token：签名（JWKS 公钥）</text>
+<text x="290" y="904.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r9">iss 匹配、aud 含 client_id、未过期</text>
+<text x="290" y="923.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r9">nonce 与会话中保存的一致</text>
+<text x="290" y="942.5" font-size="13" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r9">全部通过才建立本地登录会话</text>
+<text x="195" y="983" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">8. 302 回到原页面</text>
+<text x="195" y="1000" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">Set-Cookie：会话 ID</text>
+<path d="M290,1012 L101,1012" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" stroke-dasharray="6 4" data-seg="290,1012,101,1012"/>
+<text x="480" y="1035" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">9. GET /api/…</text>
+<text x="480" y="1052" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">Authorization: Bearer &lt;access_token&gt;</text>
+<path d="M290,1064 L669,1064" fill="none" stroke="#1F6FEB" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah1f6feb)" data-seg="290,1064,669,1064"/>
+<rect data-id="r10" x="540" y="1080" width="210" height="81" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="645" y="1101.5" font-size="13" font-weight="400" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r10">验证 access token</text>
+<text x="645" y="1120.5" font-size="13" font-weight="400" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r10">签名或内省、iss、exp</text>
+<text x="645" y="1139.5" font-size="13" font-weight="400" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r10">aud = 本 API、scope 足够</text>
+<text x="480" y="1180" font-size="13" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central">10. 200 受保护资源</text>
+<path d="M670,1192 L291,1192" fill="none" stroke="#1F6FEB" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah1f6feb)" stroke-dasharray="6 4" data-seg="670,1192,291,1192"/>
+<line x1="100" y1="82" x2="100" y2="1214" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="100,82,100,1214"/>
+<line x1="290" y1="82" x2="290" y2="131" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="290,82,290,131"/>
+<line x1="290" y1="212" x2="290" y2="271" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="290,212,290,271"/>
+<line x1="290" y1="344" x2="290" y2="431" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="290,344,290,431"/>
+<line x1="290" y1="470" x2="290" y2="540" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="290,470,290,540"/>
+<line x1="290" y1="602" x2="290" y2="864" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="290,602,290,864"/>
+<line x1="290" y1="964" x2="290" y2="1214" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="290,964,290,1214"/>
+<line x1="490" y1="82" x2="490" y2="362" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="490,82,490,362"/>
+<line x1="490" y1="424" x2="490" y2="683" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="490,424,490,683"/>
+<line x1="490" y1="783" x2="490" y2="1023" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="490,783,490,1023"/>
+<line x1="490" y1="1062" x2="490" y2="1168" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="490,1062,490,1168"/>
+<line x1="490" y1="1190" x2="490" y2="1214" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="490,1190,490,1214"/>
+<line x1="670" y1="82" x2="670" y2="1080" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="670,82,670,1080"/>
+<line x1="670" y1="1161" x2="670" y2="1214" stroke="#AFB8C1" stroke-width="1" stroke-dasharray="4 4" data-seg="670,1161,670,1214"/>
+<path d="M99.5,1244 L133.5,1244" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ahb7791f)" data-seg="99.5,1244,133.5,1244"/>
+<text x="141.5" y="1244" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">前端通道（经浏览器）</text>
+<path d="M297.5,1244 L331.5,1244" fill="none" stroke="#1F6FEB" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah1f6feb)" data-seg="297.5,1244,331.5,1244"/>
+<text x="339.5" y="1244" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">后端通道（服务器直连）</text>
+<path d="M508.5,1244 L542.5,1244" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="508.5,1244,542.5,1244"/>
+<text x="550.5" y="1244" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">请求</text>
+<path d="M602.5,1244 L636.5,1244" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" stroke-dasharray="6 4" data-seg="602.5,1244,636.5,1244"/>
+<text x="644.5" y="1244" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">响应</text>
+</svg>

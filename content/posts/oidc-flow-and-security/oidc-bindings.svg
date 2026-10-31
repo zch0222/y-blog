@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="770" height="456" viewBox="0 0 770 456" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', 'Source Han Sans SC', sans-serif">
+<title id="title">state、nonce、PKCE 的发出与校验位置</title>
+<desc id="desc">三个随机值都随授权请求发出：state 在回调时由 RP 比对，code_verifier 在令牌交换时由 OP 比对，nonce 由 OP 写入 ID Token 后由 RP 比对。</desc>
+<defs><marker id="ah57606a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.8 L10,5 L0,9.2 Z" fill="#57606A"/></marker></defs>
+<rect x="0.5" y="0.5" width="769" height="455" rx="12" fill="#FFFFFF" stroke="#D0D7DE"/>
+<rect data-id="r1" x="220" y="24" width="160" height="56" rx="8" fill="#FFFFFF" stroke="#8C959F" stroke-width="1"/>
+<text x="300" y="43" font-size="15" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r1">state</text>
+<text x="300" y="63" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r1">防登录 CSRF</text>
+<rect data-id="r2" x="400" y="24" width="160" height="56" rx="8" fill="#FFFFFF" stroke="#8C959F" stroke-width="1"/>
+<text x="480" y="43" font-size="15" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r2">nonce</text>
+<text x="480" y="63" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r2">防 ID Token 重放 / 注入</text>
+<rect data-id="r3" x="580" y="24" width="160" height="56" rx="8" fill="#FFFFFF" stroke="#8C959F" stroke-width="1"/>
+<text x="660" y="43" font-size="15" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r3">PKCE</text>
+<text x="660" y="63" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r3">防授权码截获 / 注入</text>
+<rect data-id="r4" x="20" y="105" width="170" height="50" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="105" y="121" font-size="14" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r4">① 授权请求</text>
+<text x="105" y="141" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r4">/authorize · 前端通道</text>
+<rect data-id="r5" x="20" y="185" width="170" height="50" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="105" y="201" font-size="14" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r5">② 回调</text>
+<text x="105" y="221" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r5">/callback · 前端通道</text>
+<rect data-id="r6" x="20" y="265" width="170" height="50" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="105" y="281" font-size="14" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r6">③ 令牌交换</text>
+<text x="105" y="301" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r6">/token · 后端通道</text>
+<rect data-id="r7" x="20" y="345" width="170" height="50" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="105" y="361" font-size="14" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r7">④ 验证 ID Token</text>
+<text x="105" y="381" font-size="12" font-weight="400" fill="#424A53" text-anchor="middle" dominant-baseline="central" data-box="r7">RP 本地</text>
+<rect data-id="r8" x="220" y="106" width="160" height="48" rx="10" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="300" y="121" font-size="13" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r8">随请求发出</text>
+<text x="300" y="139.5" font-size="12" font-weight="400" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r8">state</text>
+<rect data-id="r9" x="220" y="186" width="160" height="48" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="300" y="201" font-size="13" font-weight="600" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r9">RP 比对 ✓</text>
+<text x="300" y="219.5" font-size="12" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r9">回调里的 state</text>
+<path d="M300,156 L300,184" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="300,156,300,184"/>
+<rect data-id="r10" x="400" y="106" width="160" height="48" rx="10" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="480" y="121" font-size="13" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r10">随请求发出</text>
+<text x="480" y="139.5" font-size="12" font-weight="400" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r10">nonce</text>
+<rect data-id="r11" x="400" y="266" width="160" height="48" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+<text x="480" y="281" font-size="13" font-weight="600" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r11">OP 写入 ID Token</text>
+<text x="480" y="299.5" font-size="12" font-weight="400" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r11">nonce 声明</text>
+<path d="M480,156 L480,264" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="480,156,480,264"/>
+<rect data-id="r12" x="400" y="346" width="160" height="48" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="480" y="361" font-size="13" font-weight="600" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r12">RP 比对 ✓</text>
+<text x="480" y="379.5" font-size="12" font-weight="400" fill="#3C3489" text-anchor="middle" dominant-baseline="central" data-box="r12">与会话中保存的一致</text>
+<path d="M480,316 L480,344" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="480,316,480,344"/>
+<rect data-id="r13" x="580" y="106" width="160" height="48" rx="10" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="660" y="121" font-size="13" font-weight="600" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r13">随请求发出</text>
+<text x="660" y="139.5" font-size="12" font-weight="400" fill="#1F2328" text-anchor="middle" dominant-baseline="central" data-box="r13">code_challenge</text>
+<rect data-id="r14" x="580" y="266" width="160" height="48" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+<text x="660" y="281" font-size="13" font-weight="600" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r14">OP 比对 ✓</text>
+<text x="660" y="299.5" font-size="12" font-weight="400" fill="#085041" text-anchor="middle" dominant-baseline="central" data-box="r14">code_verifier 的哈希</text>
+<path d="M660,156 L660,264" fill="none" stroke="#57606A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ah57606a)" data-seg="660,156,660,264"/>
+<line x1="205" y1="170" x2="745" y2="170" stroke="#E1E4E8" stroke-width="1" data-seg="205,170,745,170"/>
+<line x1="205" y1="250" x2="745" y2="250" stroke="#E1E4E8" stroke-width="1" data-seg="205,250,745,250"/>
+<line x1="205" y1="330" x2="745" y2="330" stroke="#E1E4E8" stroke-width="1" data-seg="205,330,745,330"/>
+<rect data-id="r15" x="184.1" y="421" width="14" height="14" rx="3" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+<text x="206.1" y="428" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">随授权请求发出</text>
+<rect data-id="r16" x="323.1" y="421" width="14" height="14" rx="3" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+<text x="345.1" y="428" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">RP 处理 / 校验</text>
+<rect data-id="r17" x="467.5" y="421" width="14" height="14" rx="3" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+<text x="489.5" y="428" font-size="13" font-weight="400" fill="#424A53" text-anchor="start" dominant-baseline="central">OP 处理 / 校验</text>
+</svg>
