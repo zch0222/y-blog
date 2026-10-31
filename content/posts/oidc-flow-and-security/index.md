@@ -221,7 +221,7 @@ ID Token 验证通过后，RP 建立自己的登录会话，再把浏览器重�
 
 - 登录成功后更换会话 ID，防止会话固定攻击。
 - 会话 Cookie 设置 `Secure`、`HttpOnly` 和 `SameSite`，名称使用 `__Host-` 前缀，防止被子域名覆盖。
-- 令牌保存在服务端会话里，不下发给浏览器。
+- 需要保留的令牌只保存在服务端会话里，不下发给浏览器。
 
 有个容易踩的坑：保存登录事务（`state`、`nonce`、`code_verifier`）的 Cookie 必须能在回调时被带上。回调是从 OP 跨站跳回来的顶层导航，`SameSite=Strict` 的 Cookie 不会随之发送，所以这个 Cookie 应使用 `SameSite=Lax`。如果使用 `response_mode=form_post`，回调变成跨站 POST，连 `Lax` 的 Cookie 也不会发送，就需要 `SameSite=None; Secure`。
 
@@ -236,6 +236,23 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6ImF0K2p3dCIsImtpZCI6IjIwMjYtMT
 资源服务器要自己验证 access token：JWT 格式（RFC 9068）的令牌在本地验签，不透明令牌通过 OP 的内省端点（RFC 7662）查询。无论哪种方式，都要检查 `iss`、`exp`，确认 `aud` 是本 API，`scope` 覆盖这次操作。API 不应接受 ID Token 作为访问凭证。
 
 access token 过期后，RP 用 `refresh_token` 向令牌端点换取新的令牌，用户无需重新登录。需要更多用户信息时，RP 还可以带着 access token 调用 UserInfo 端点。
+
+### 只做登录：不调用 API 的情况
+
+很多应用接入 OIDC 只是为了实现“用 XX 账号登录”，并不需要调用任何 API。这时流程到第 8 步就结束了，第 9、10 步可以省略，OP 只承担身份认证的角色：RP 验证 ID Token，用 `iss` + `sub` 找到或创建本地用户，再建立自己的会话。此后用户访问 RP，校验的都是 RP 自己的会话，与 OP 签发的令牌无关。
+
+因此，OP 返回的令牌大多用不着保存：
+
+- **`access_token`**：OAuth 2.0 规定令牌响应必须包含它，所以 OP 照样会返回，RP 用不到就直接丢弃。常见的例外是 ID Token 里的声明不够用（比如缺少邮箱或昵称），需要在登录时用它调用一次 UserInfo 端点，用完再丢。这时 UserInfo 响应中的 `sub` 必须与 ID Token 中的 `sub` 完全一致，否则不能使用这份响应（OIDC Core 第 5.3.2 节）。
+- **`refresh_token`**：很多 OP 只在请求了 `offline_access` 时才会签发，不请求即可；即使拿到了，也可以不保存。
+- **`id_token`**：验证通过后就可以丢弃。但如果要支持“退出 RP 时同时退出 OP”（RP-Initiated Logout），规范建议注销请求携带 `id_token_hint`，有些 OP 还要求必须携带，这时就把它保存在服务端会话里。
+
+scope 也按需申请：只需要身份时，`openid` 就够了；要展示用户资料，再加上 `profile`、`email`。还要注意，省掉的只是第 9、10 步：`state`、`nonce`、PKCE 和 ID Token 的各项校验一项都不能少，它们保护的正是登录本身。
+
+这样做的代价是，RP 的本地会话与用户在 OP 的会话从此脱钩：用户在 OP 被禁用、修改密码或者退出登录，RP 的会话都不会随之失效，而是一直持续到它自己过期。常见的应对方式有：
+
+- 本地会话的有效期不要设得太长，到期后重新跳转到 OP 认证。如果用户在 OP 的会话还在，OP 通常会直接跳回 RP，用户几乎无感。
+- 需要让会话及时失效的场景（比如员工离职后立即断开访问），可以接入 OP 的 Back-Channel Logout：由 OP 通知 RP 注销对应的会话，为此要在本地会话里记下 ID Token 中的 `sid`，或者 `iss` + `sub`。也可以保留 `refresh_token` 并定期刷新，OP 拒绝刷新，通常就意味着账户已被禁用或授权已被撤销。
 
 ## 四、OIDC 如何保证安全
 
@@ -384,6 +401,8 @@ RFC 9700 规定，能与多个 OP 交互的客户端必须防御混淆攻击。�
 
 - [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html)
 - [OpenID Connect Discovery 1.0](https://openid.net/specs/openid-connect-discovery-1_0.html)
+- [OpenID Connect RP-Initiated Logout 1.0](https://openid.net/specs/openid-connect-rpinitiated-1_0.html)
+- [OpenID Connect Back-Channel Logout 1.0](https://openid.net/specs/openid-connect-backchannel-1_0.html)
 - [RFC 6749：The OAuth 2.0 Authorization Framework](https://www.rfc-editor.org/rfc/rfc6749)
 - [RFC 6750：Bearer Token Usage](https://www.rfc-editor.org/rfc/rfc6750)
 - [RFC 7636：Proof Key for Code Exchange（PKCE）](https://www.rfc-editor.org/rfc/rfc7636)
